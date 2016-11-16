@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class selectable : MonoBehaviour {
 
     public bool selected = false;
     public GameObject selectEffect;
+    public bool movable;
 
     public float agentSpeed = 5;
     NavMeshAgent nav;
@@ -12,6 +14,7 @@ public class selectable : MonoBehaviour {
 	// Use this for initialization
 
 	void Start () {
+       
         nav = GetComponent<NavMeshAgent>();
         nav.speed = agentSpeed;
         selectEffect.SetActive(false);
@@ -32,13 +35,19 @@ public class selectable : MonoBehaviour {
 
     public void Move(Vector3 pos)
     {
-        followTarget = null;
-        nav.SetDestination(pos);
+        if (movable)
+        {
+            followTarget = null;
+            nav.SetDestination(pos);
+        }
     }
 
     public void Move(Transform target)
     {
-        followTarget = target;
+        if (movable)
+        {
+            followTarget = target;
+        }
     }
 
     void OnTriggerEnter(Collider other)
