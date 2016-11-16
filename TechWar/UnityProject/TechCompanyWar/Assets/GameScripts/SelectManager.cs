@@ -33,6 +33,7 @@ public class SelectManager : MonoBehaviour {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+
             if (!Physics.Raycast(ray, out hit))
                 return;
             selectable selectionHit = hit.transform.GetComponent<selectable>();
@@ -49,6 +50,21 @@ public class SelectManager : MonoBehaviour {
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+
+            //Check for if a unit is the target
+            if (!Physics.Raycast(ray, out hit))
+                return;
+            selectable targetSelected = hit.transform.GetComponent<selectable>();
+            if (targetSelected != null)
+            {
+                foreach(selectable s in Selections)
+                {
+                    s.Move(targetSelected.transform);
+                }
+                return;
+            }
+
+
             if (!mapCollider.Raycast(ray, out hit, Mathf.Infinity))
                 return;
             foreach(selectable s in Selections)
