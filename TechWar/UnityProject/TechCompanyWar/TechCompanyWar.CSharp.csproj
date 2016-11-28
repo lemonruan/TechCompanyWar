@@ -63,9 +63,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GameScripts\CitizenScript.cs" />
     <Compile Include="Assets\GameScripts\HUDScript.cs" />
     <Compile Include="Assets\GameScripts\PlayerBaseScript.cs" />
     <Compile Include="Assets\GameScripts\Rotate.cs" />
+    <Compile Include="Assets\GameScripts\SalesmanScript.cs" />
     <Compile Include="Assets\GameScripts\SelectManager.cs" />
     <Compile Include="Assets\GameScripts\cameraScript.cs" />
     <Compile Include="Assets\GameScripts\selectable.cs" />

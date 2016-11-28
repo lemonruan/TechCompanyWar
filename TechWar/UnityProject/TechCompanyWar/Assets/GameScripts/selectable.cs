@@ -33,6 +33,11 @@ public class selectable : MonoBehaviour {
         selectEffect.SetActive(false);
     }
 
+    public void setMovable(bool m)
+    {
+        movable = m;
+    }
+
     public void Move(Vector3 pos)
     {
         if (movable)
@@ -52,9 +57,20 @@ public class selectable : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        print("Enter trigger");
+        //print("Enter trigger");
         if(other.transform == followTarget)
         {
+            if (movable)
+            {
+                CitizenScript targetCitizen = other.GetComponent<CitizenScript>();
+                if (targetCitizen != null)
+                {
+                    //Start convincing process
+                    //Simply change color atm
+                    GetComponent<SalesmanScript>().convince(targetCitizen);
+                }
+            }
+
             followTarget = null;
             nav.SetDestination(transform.position);
             Vector3 v = new Vector3(0,0,0);
