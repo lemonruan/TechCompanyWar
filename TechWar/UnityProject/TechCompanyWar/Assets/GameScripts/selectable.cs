@@ -55,6 +55,8 @@ public class selectable : MonoBehaviour {
         }
     }
 
+
+
     void OnTriggerEnter(Collider other)
     {
         //print("Enter trigger");
