@@ -66,6 +66,7 @@
     <Compile Include="Assets\GameScripts\AIBaseScript.cs" />
     <Compile Include="Assets\GameScripts\CitizenScript.cs" />
     <Compile Include="Assets\GameScripts\CommonDataManager.cs" />
+    <Compile Include="Assets\GameScripts\DynamicTextScript.cs" />
     <Compile Include="Assets\GameScripts\FixedPatternAI.cs" />
     <Compile Include="Assets\GameScripts\HUDScript.cs" />
     <Compile Include="Assets\GameScripts\PlayerBaseScript.cs" />

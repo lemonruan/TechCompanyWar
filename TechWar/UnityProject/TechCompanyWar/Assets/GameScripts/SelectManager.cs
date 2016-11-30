@@ -59,7 +59,10 @@ public class SelectManager : MonoBehaviour {
             {
                 foreach(selectable s in Selections)
                 {
-                    s.Move(targetSelected.transform);
+                    if (s.isPlayer)
+                    {
+                        s.Move(targetSelected.transform);
+                    }
                 }
                 return;
             }
@@ -69,7 +72,10 @@ public class SelectManager : MonoBehaviour {
                 return;
             foreach(selectable s in Selections)
             {
-                s.Move(hit.point);
+                if (s.isPlayer)
+                {
+                    s.Move(hit.point);
+                }
             }
         }
 

@@ -7,6 +7,7 @@ public class selectable : MonoBehaviour {
     public bool selected = false;
     public GameObject selectEffect;
     public bool movable;
+    public bool isPlayer;
 
     public float agentSpeed = 5;
     NavMeshAgent nav;
