@@ -21,6 +21,18 @@ public class CommonDataManager : MonoBehaviour {
 
     GameStateScript gameState;
 
+    public PlayerBaseScript playerBase;
+    public AIBaseScript AIBase;
+
+    PersistentDataScript data;
+
+    int day;
+    int month;
+    int year;
+    //DISPLAYS
+    float lastTime;
+
+
     public int getPlayerProductSellStat(int callerType)
     {
         int count = 0;
@@ -81,6 +93,10 @@ public class CommonDataManager : MonoBehaviour {
 	void Start () {
         citizens = GameObject.FindGameObjectsWithTag("targets");
         gameState = GetComponent<GameStateScript>();
+        day = 1;
+        month = 1;
+        year = 2017;
+        data = GameObject.FindGameObjectWithTag("GameOverData").GetComponent<PersistentDataScript>();
     }
 
     public GameObject getClosestCitizenWithDifferentColor(Transform callerTransform, int callerType, int callerColor, List<CitizenScript> unwillingBuyers)
@@ -94,7 +110,9 @@ public class CommonDataManager : MonoBehaviour {
         foreach (GameObject c in citizens)
         {
             //THIS ONE ONLY RETURNS THE CLOSEST CITIZEN WITH THE TYPE OF PRODUCT IN A DIFFERENT COLOR
-            if (c.GetComponent<CitizenScript>().getColorWithType(callerType) != callerColor && (!unwillingBuyers.Contains(c.GetComponent<CitizenScript>())))
+            if (c.GetComponent<CitizenScript>().getColorWithType(callerType) != callerColor 
+                && (!unwillingBuyers.Contains(c.GetComponent<CitizenScript>()))
+                && (!c.GetComponent<CitizenScript>().isTypeInSession(callerType)))
             {
                 float temp = Vector3.Distance(callerTransform.position, c.transform.position);
                 if (dist > temp)
@@ -114,11 +132,49 @@ public class CommonDataManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-	    //CHECK IF GAME IS FINISHED
-        if(playerPhoneCount*2 >= getTotalPopulation() &&
+        //update time, this number controls how fast one day is
+        if (Time.time - lastTime >= 0.1)
+        {
+            updateTime();
+            lastTime = Time.time;
+        }
+
+        //CHECK IF GAME IS FINISHED
+        if(playerBase.getResource() <= 0)
+        {
+            data.setWinner(1);
+            data.setSellData(playerPhoneCount,
+            playerLaptopCount,
+            playerHeadphoneCount,
+            enemyPhoneCount,
+            enemyLaptopCount,
+            enemyHeadphoneCount);
+            gameState.goToGameOverScreen();
+        }
+
+        if(AIBase.getResource() <= 0)
+        {
+            data.setWinner(0);
+            data.setSellData(playerPhoneCount,
+            playerLaptopCount,
+            playerHeadphoneCount,
+            enemyPhoneCount,
+            enemyLaptopCount,
+            enemyHeadphoneCount);
+            gameState.goToGameOverScreen();
+        }
+
+        if (playerPhoneCount*2 >= getTotalPopulation() &&
             playerLaptopCount*2 >= getTotalPopulation() &&
             playerHeadphoneCount*2 >= getTotalPopulation())
         {
+            data.setWinner(0);
+            data.setSellData(playerPhoneCount,
+            playerLaptopCount,
+            playerHeadphoneCount,
+            enemyPhoneCount,
+            enemyLaptopCount,
+            enemyHeadphoneCount);
             gameState.goToGameOverScreen();
         }
 
@@ -126,8 +182,35 @@ public class CommonDataManager : MonoBehaviour {
             enemyLaptopCount * 2 >= getTotalPopulation() &&
             enemyHeadphoneCount * 2 >= getTotalPopulation())
         {
+            data.setWinner(1);
+            data.setSellData(playerPhoneCount,
+            playerLaptopCount,
+            playerHeadphoneCount,
+            enemyPhoneCount,
+            enemyLaptopCount,
+            enemyHeadphoneCount);
             gameState.goToGameOverScreen();
         }
 
+    }
+
+    void updateTime()
+    {
+        //10 seconds a day
+        day++;
+        if (day > 30)
+        {
+            day = 1;
+            month++;
+            playerBase.paySalesmanMonthlySalary();
+            AIBase.paySalesmanMonthlySalary();
+        }
+        if (month > 12)
+        {
+            month = 1;
+            year++;
+            playerBase.payLoan();
+        }
+        playerBase.updateTimeHelperMethod(month, day, year);
     }
 }

@@ -81,7 +81,10 @@ public class AIBaseScript : MonoBehaviour {
         return rate;
     }
 
-
+    public float getResource()
+    {
+        return resource;
+    }
 
     // Use this for initialization
     void Start()
@@ -461,6 +464,12 @@ public class AIBaseScript : MonoBehaviour {
             seller.setProductScoreIfIsType(laptopPS, 1);
             seller.setProductScoreIfIsType(headphonePS, 2);
         }
+    }
+
+    public void paySalesmanMonthlySalary()
+    {
+        int totalSalary = allSalesMans.Count;
+        resource -= totalSalary;
     }
 
 }

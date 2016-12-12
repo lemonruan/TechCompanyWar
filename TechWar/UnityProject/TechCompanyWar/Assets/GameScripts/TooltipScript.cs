@@ -69,6 +69,12 @@ public class TooltipScript : MonoBehaviour {
             + "Cost: " + playerBase.getSaleTrainingCost() + "K";
     }
 
+    public void displayBankLoanToolTip()
+    {
+        toolTipText.text = "Loan 2000K, with 20% interest \n"
+            + "due at end of the year";
+    }
+
     public void clearTooltip()
     {
         toolTipText.text = "";

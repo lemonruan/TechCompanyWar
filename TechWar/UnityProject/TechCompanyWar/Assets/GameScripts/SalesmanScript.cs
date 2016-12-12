@@ -21,6 +21,7 @@ public class SalesmanScript : MonoBehaviour {
     //FOR AI
     bool needATarget;
 
+
     selectable selectableSelf;
     CitizenScript targetCitizen;
 
@@ -50,10 +51,16 @@ public class SalesmanScript : MonoBehaviour {
         unwillingBuyers = new List<CitizenScript>();
     }
 
+
+
     public void setProductScoreIfIsType(int score, int type)
     {
         if(type == saleType)
         {
+            if (score > productScore)
+            {
+                unwillingBuyers.Clear();
+            }
             productScore = score;
         }
     }
@@ -93,6 +100,7 @@ public class SalesmanScript : MonoBehaviour {
             targetCitizen = citizen;
             selectableSelf.setMovable(false);
             ConvinceEffect.Play();
+            citizen.setInSession(saleType, true);
         }
     }
 	
@@ -174,6 +182,8 @@ public class SalesmanScript : MonoBehaviour {
                     unwillingBuyers.Add(targetCitizen);
                 }
                 selectableSelf.setMovable(true);
+
+                targetCitizen.setInSession(saleType, false);
                 targetCitizen = null;
 
                 //after finishing convincing one, and autofind a target

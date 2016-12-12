@@ -67,9 +67,11 @@
     <Compile Include="Assets\GameScripts\CitizenScript.cs" />
     <Compile Include="Assets\GameScripts\CommonDataManager.cs" />
     <Compile Include="Assets\GameScripts\FixedPatternAI.cs" />
+    <Compile Include="Assets\GameScripts\GameOverSceneScript.cs" />
     <Compile Include="Assets\GameScripts\GameStateScript.cs" />
     <Compile Include="Assets\GameScripts\HUDScript.cs" />
     <Compile Include="Assets\GameScripts\LoadLevelScript.cs" />
+    <Compile Include="Assets\GameScripts\PersistentDataScript.cs" />
     <Compile Include="Assets\GameScripts\PlayerBaseScript.cs" />
     <Compile Include="Assets\GameScripts\Rotate.cs" />
     <Compile Include="Assets\GameScripts\SalesmanScript.cs" />

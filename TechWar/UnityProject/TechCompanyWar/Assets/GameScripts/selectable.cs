@@ -60,9 +60,10 @@ public class selectable : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        //print("Enter trigger");
+        
         if(other.transform == followTarget)
         {
+            print("Enter trigger");
             if (movable)
             {
                 CitizenScript targetCitizen = other.GetComponent<CitizenScript>();

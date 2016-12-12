@@ -13,11 +13,11 @@ public class HUDScript : MonoBehaviour {
     public Sprite LogoSprite;
     public Image Logo;
 
-    //DISPLAYS
-    float lastTime;
+
+    
     public Text Timer;
     public Text ResourceText;
-
+    public Text LoanText;
     public Text PhoneScore;
     public Text LaptopScore;
     public Text headphoneScore;
@@ -40,10 +40,10 @@ public class HUDScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        lastTime = 0;
         buttonArray = Buttons.GetComponentsInChildren<Button>(true);
 
         progressBar.gameObject.SetActive(false);
+        
 	}
 
     public void StartAProgress(Button bInp)
@@ -70,11 +70,7 @@ public class HUDScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Time.time - lastTime >= 1)
-        {
-            Timer.text = "Time passed: " + Time.time;
-            lastTime = Time.time;
-        }
+        
 
     }
 
@@ -85,6 +81,11 @@ public class HUDScript : MonoBehaviour {
         text2.text = text1.text;
         text1.text = text0.text;
         text0.text = message;
+    }
+
+    public void updateTimeDisplay(int month, int day, int year)
+    {
+        Timer.text = "Month: " + month + " Day: " + day + " Year: " + year;
     }
 
 
@@ -105,7 +106,12 @@ public class HUDScript : MonoBehaviour {
 
     public void updateResource(float resource)
     {
-        ResourceText.text = "Resource($): " + resource.ToString("0.000") + "K";
+        ResourceText.text = "Resource($): " + resource.ToString("0.0") + "K";
+    }
+
+    public void updateLoan(float loan)
+    {
+        LoanText.text = "Bank Loan Due($): " + loan.ToString("0.0") + "K";
     }
 
 

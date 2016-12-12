@@ -77,6 +77,7 @@ public class PlayerBaseScript : MonoBehaviour {
     public GameObject saleAgent;
     List<SalesmanScript> allSalesMans;
 
+    float loanOwed;
 
     public int getPhoneTechCost()
     {
@@ -106,12 +107,19 @@ public class PlayerBaseScript : MonoBehaviour {
     {
         return SALE_TRAINING_COST;
     }
+
+
+    public float getResource()
+    {
+        return resource;
+    }
     // Use this for initialization
-	void Start () {
+    void Start () {
         HUD = (HUDScript)(GameObject.FindGameObjectWithTag("HUD").GetComponent(typeof(HUDScript)));
         rate = -1;
         type = -1;
         // Starting resource
+        loanOwed = 0;
         resource = 5000;
         phoneTechLevel = 1;
         phoneTechCost = 4000;
@@ -145,6 +153,20 @@ public class PlayerBaseScript : MonoBehaviour {
         allSalesMans = new List<SalesmanScript>();
 	}
 
+    public void loan()
+    {
+        resource += 2000;
+        loanOwed += 2400;
+        HUD.updateResource(resource);
+        HUD.updateLoan(loanOwed);
+    }
+
+    public void payLoan()
+    {
+        resource -= loanOwed;
+        HUD.updateResource(resource);
+        HUD.updateLoan(loanOwed);
+    }
 
     //FROM HERE, THESE 9 FUNCTIONS HANDLE THE 9 BUTTONS FOR PHONE, LAPTOP AND HEADPHONE
     public void UpgradePhoneTech(Button b)
@@ -167,7 +189,7 @@ public class PlayerBaseScript : MonoBehaviour {
             perc = 0;
             rate = 5;
             
-            deltaPS = 80;
+            deltaPS = 60;
         }
     }
 
@@ -186,7 +208,7 @@ public class PlayerBaseScript : MonoBehaviour {
             lastTime = Time.time;
             perc = 0;
             rate = 5;
-            deltaPS = 60;
+            deltaPS = 20;
         }
     }
 
@@ -204,7 +226,7 @@ public class PlayerBaseScript : MonoBehaviour {
             HUD.StartAProgress(b);
             lastTime = Time.time;
             perc = 0;
-            rate = 20;
+            rate = 50;
         }
     }
 
@@ -224,7 +246,7 @@ public class PlayerBaseScript : MonoBehaviour {
             perc = 0;
             rate = 3;
             
-            deltaPS = 150;
+            deltaPS = 80;
         }
     }
 
@@ -244,7 +266,7 @@ public class PlayerBaseScript : MonoBehaviour {
             perc = 0;
             rate = 3;
             
-            deltaPS = 100;
+            deltaPS = 10;
         }
     }
 
@@ -284,7 +306,7 @@ public class PlayerBaseScript : MonoBehaviour {
             perc = 0;
             rate = 10;
 
-            deltaPS = 60;
+            deltaPS = 30;
         }
     }
 
@@ -302,7 +324,7 @@ public class PlayerBaseScript : MonoBehaviour {
             HUD.StartAProgress(b);
             lastTime = Time.time;
             perc = 0;
-            rate = 20;
+            rate = 10;
 
             deltaPS = 30;
         }
@@ -486,17 +508,17 @@ public class PlayerBaseScript : MonoBehaviour {
         //0 FOR PHONE, 1 FOR LAPTOP, 2 FOR HEADPHONE
         if(saleType == 0)
         {
-            resource += phoneInterest;
-            HUD.addMessage("A phone is sold with interest of "+ (phoneInterest*1000).ToString("0.0"));
+            resource += phoneInterest * 100;
+            HUD.addMessage("A hundred phones are sold with interest of "+ (phoneInterest*100).ToString("0.0") + "K");
         }else if(saleType == 1)
         {
-            resource += laptopInterest;
-            HUD.addMessage("A laptop is sold with interest of " + (laptopInterest * 1000).ToString("0.0"));
+            resource += laptopInterest * 100;
+            HUD.addMessage("A hundred laptop is sold with interest of " + (laptopInterest * 100).ToString("0.0") + "K");
         }
         else if(saleType == 2)
         {
-            resource += headphoneInterest;
-            HUD.addMessage("A headphone is sold with interest of " + (headphoneInterest * 1000).ToString("0.0"));
+            resource += headphoneInterest * 100;
+            HUD.addMessage("A hundred headphone is sold with interest of " + (headphoneInterest * 100).ToString("0.0") + "K");
         }
 
         HUD.updateResource(resource);
@@ -512,9 +534,23 @@ public class PlayerBaseScript : MonoBehaviour {
         }
     }
 
+    public void paySalesmanMonthlySalary()
+    {
+        int totalSalary = allSalesMans.Count;
+        HUD.addMessage("Monthly payment for employers are: " + totalSalary + "K");
+        resource -= totalSalary;
+        HUD.updateResource(resource);
+    }
+
     //JUST A METHOD FOR SALESMAN TO ACCESS HUD
     public void updateCustomerCount(int a, int b, int c, int d, int e, int f, int g)
     {
         HUD.updatePopulationCount(a,b,c,d,e,f,g);
+    }
+
+    //FOR COMMON DATA MANAGER TO ACCESS
+    public void updateTimeHelperMethod(int month, int day, int year)
+    {
+        HUD.updateTimeDisplay(month, day, year);
     }
 }

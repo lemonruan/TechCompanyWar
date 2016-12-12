@@ -19,6 +19,10 @@ public class CitizenScript : MonoBehaviour {
     public Texture headphoneBlueTexture;
     int headphoneColor;
     int headphonePS;
+
+    bool isInProcessPhone;
+    bool isInProcessLaptop;
+    bool isInProcessHeadphone;
     // Use this for initialization
     void Start () {
         //-1 for neutral color, in this case, this citizen does not own a type of this product
@@ -29,8 +33,10 @@ public class CitizenScript : MonoBehaviour {
         phonePS = 0;
         laptopPS = 0;
         headphonePS = 0;
-
-	}
+        isInProcessPhone = false;
+        isInProcessLaptop = false;
+        isInProcessHeadphone = false;
+    }
 
     public void setProductScore(int type, int score)
     {
@@ -83,6 +89,40 @@ public class CitizenScript : MonoBehaviour {
         }
     }
 
+    public void setInSession(int type, bool val)
+    {
+        if(type == 0)
+        {
+            isInProcessPhone = val;
+        }else if(type == 1)
+        {
+            isInProcessLaptop = val;
+        }else if(type == 2)
+        {
+            isInProcessHeadphone = val;
+        }
+    }
+
+    public bool isTypeInSession(int type)
+    {
+        if (type == 0)
+        {
+            return isInProcessPhone;
+        }
+        else if (type == 1)
+        {
+            return isInProcessLaptop;
+        }
+        else if (type == 2)
+        {
+            return isInProcessHeadphone;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void changePhoneColor(int color)
     {
         //print("Change color to " + color);
@@ -131,9 +171,8 @@ public class CitizenScript : MonoBehaviour {
         {
             if(productScore > phonePS)
             {
-                int randomNumber = Random.Range(0, 100);
-                int chance = (productScore - phonePS) * 100 / 30;
-                if(randomNumber > chance)
+                int randomNumber = Random.Range(50, 100);
+                if((productScore - phonePS) > randomNumber)
                 {
                     return true;
                 }
@@ -143,9 +182,8 @@ public class CitizenScript : MonoBehaviour {
         {
             if (productScore > laptopPS)
             {
-                int randomNumber = Random.Range(0, 100);
-                int chance = (productScore - laptopPS) * 100 / 30;
-                if (randomNumber > chance)
+                int randomNumber = Random.Range(50, 100);
+                if ((productScore - laptopPS) > randomNumber)
                 {
                     return true;
                 }
@@ -155,9 +193,8 @@ public class CitizenScript : MonoBehaviour {
         {
             if (productScore > headphonePS)
             {
-                int randomNumber = Random.Range(0, 100);
-                int chance = (productScore - headphonePS) * 100 / 30;
-                if (randomNumber > chance)
+                int randomNumber = Random.Range(50, 100);
+                if ((productScore - headphonePS) > randomNumber)
                 {
                     return true;
                 }
