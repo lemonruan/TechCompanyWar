@@ -77,6 +77,7 @@
     <Compile Include="Assets\GameScripts\SalesmanScript.cs" />
     <Compile Include="Assets\GameScripts\SelectManager.cs" />
     <Compile Include="Assets\GameScripts\TooltipScript.cs" />
+    <Compile Include="Assets\GameScripts\TutorialTextScript.cs" />
     <Compile Include="Assets\GameScripts\cameraScript.cs" />
     <Compile Include="Assets\GameScripts\selectable.cs" />
   </ItemGroup>
